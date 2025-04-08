@@ -1,0 +1,80 @@
+1. Jelaskan multidimensional arrays dan berikan contoh
+
+multidimensional array sebenarnya memiliki prinsip yang sama dengan array pada umumnya yang bersifat 1 dimensi, namun sesuai namanya, memiliki lebih dari 1 dimensi. tetapi berbeda dengan array of arrays pada umumnya, karena ini masih bersifat contiguous dalam memori. tetapi yang berbeda adalah sebuah multidimensional array memiliki struktur seperti sebuah grid, yakni dengan bantuan row dan column.
+
+contoh paling sederhana yakni 2d array yang berbentuk seperti sebuah tabel dan proses inisialisasinya dilakukan baris demi baris ke kanan (pada umumnya) dengan mengakses index masing-masing layaknya sebuah koordinat matriks.
+
+cara mendeklarasikannya juga mirip seperti array biasa, tetapi memiliki sepasang atau lebih kurung siku lagi untuk mendeklarasikan sizenya:
+
+int[][] arr; --> jika kita mau mendeklarasikan sebuah 2d array tanpa menginisialisasi value
+
+int[][] arr = new int[2][2] atau berapa pun sizenya --> jika kita mau mendeklarasikan sebuah 2d array dengan value default 0
+
+int[][] arr = new int[2][] atau berapa pun jumlah barisnya --> jika kita mau mendeklarasikan sebuah jagged array yang memiliki jumlah kolom berbeda-beda tiap barisnya
+
+misalkan, saya ingin membuat sebuah 2d array yang berbentuk:
+
+0
+1 2
+3 4 5
+6 7 8 9
+
+maka kodenya akan seperti:
+
+int[][] arr = new int[4][];
+		for (int i = 0; i < 4; i++){
+			arr[i] = new int[i+1];
+		}
+		int count = 0;
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr[i].length; j++) {
+				arr[i][j] = count++;
+			}
+		}
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr[i].length; j++) {
+				System.out.print(arr[i][j] + " ");
+			}
+			System.out.print("\n");
+		}
+
+2. Sebutkan dan jelaskan 13 method-method string dalam Java
+
+1) substring(n): mengembalikan "bagian" dari sebuah string yang dimulai dari index ke-n sampai akhir string
+
+2) substring(m,n): mengembalikan "bagian" dari sebuah string yang dimulai dari index ke-m sebanyak n-m karakter (atau sampai index ke-(n-1)
+
+3) length(): mengembalikan panjang/jumlah karakter dalam sebuah string
+
+4) contains(s): mengembalikan sebuah boolean yang mengecek apakah sebuah string memiliki satu atau sekumpulan karakter s yang berurutan dalam suatu string
+
+5) charAt(n): mengembalikan satu buah karakter yang berada pada index ke-n dalam suatu string
+
+6) concat(s): mengembalikan sebuah string yang merupakan hasil penggabungan antara string sebelumnya dengan string s di bagian akhir string sebelumnya
+
+7) split(r, n): mengembalikan sebuah array yang berisi satu atau beberapa bagian dari string awal hasil pembelahan string tersebut yang menggunakan sebuah regex r sebagai pemisah/separator, dan juga n sebagai limit yang menjadi pembatas berapa bagian yang akan dihasilkan dalam array tersebut
+
+8) toLowerCase(): mengembalikan string yang telah diubah menjadi huruf kecil semua setiap karakternya
+
+9) toUpperCase(): mengembalikan string yang telah diubah menjadi huruf besar semua setiap karakternya
+
+10) replace(s1, s2): mengembalikan string dengan bagian s1 yang sebelumnya berada di dalam string tersebut yang kemudian diubah atau digantikan dengan bagian baru s2. bisa berupa karakter atau pun sekumpulan karakter yang berurutan (string) dan semua akan diganti jika memang ada lebih dari 1
+
+11) startWith(s): mengembalikan sebuah boolean yang menyatakan apakah sebuah string memiliki awalan s. bisa berupa sebuah karakter atau sekumpulan karakter yang berurutan (string)
+
+12) toCharArray(): mengembalikan sebuah array yang berisikan setiap karakter dari sebuah string yang dipisahkan dengan koma
+
+13) trim(): mengembalikan string hasil pemangkasan satu atau beberapa whitespace/spasi yang berada di awal atau pun akhir string, namun tidak di antaranya
+
+3. Sebutkan 2 keuntungan Immutability dalam Java
+
+dari sumber yang saya baca, immutability sendiri memiliki beberapa advantages, namun yang mungkin paling menonjol adalah:
+
+- thread safety:
+bayangkan saja sebuah program yang memiliki beberapa fungsi atau bagian kode yang mengakses sebuah object atau variable yang mutable, maka bisa saja terjadi race conditions atau bahkan data corruption yang tentu akan menjadi masalah besar bagi program kita. nah, dengan menggunakan immutable object atau variable, kita bisa mengatasi masalah tersebut karena value dari sebuah immutable object atau variable tidak bisa diubah dan diakses begitu saja karena bersifat constant.
+
+- debugging, predictable, caching, and reusability:
+sebuah immutable object atau variable akan mudah untuk diingat bahwa valuenya tidak dapat diubah begitu saja apalagi jika kita tidak sengaja mengakses atau mengubahnya suatu saat nanti, sifat ini sangat bermanfaat untuk maintenance kode kedepannya karena kita tau bahwa value tersebut tidak akan berubah dan kemudian bisa dicache dengan aman untuk diakses oleh berbagai thread atau kode lain dalam environment kita tanpa harus khawatir akan terubahnya value tersebut dan membuat performa kode kita meningkat dan juga mempertahankan konsistensi.
+
+source:
+https://supakon-k.medium.com/the-advantages-of-using-immutable-objects-in-java-e32f6d326738
