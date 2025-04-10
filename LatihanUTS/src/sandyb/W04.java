@@ -64,11 +64,12 @@ public class W04 {
 				// System.out.println(filteredCounter);
 				// System.out.println(indexCounter);
 				if (person.getJenisKelamin() == jenisKelamin && indexCounter < filteredCounter) {
-					System.out.println(person.getNama());
+//					System.out.println(person.getNama());
 					filteredChildrenByGender[indexCounter] = person;
 					indexCounter++;
 				}
 			}
+
 			return filteredChildrenByGender;
 		}
 
@@ -81,7 +82,7 @@ public class W04 {
 			}
 
 			Person[] ancestors = null;
-			System.out.println(ancestorCount);
+//			System.out.println(ancestorCount);
 			if (ancestorCount != 0)
 				ancestors = new Person[ancestorCount];
 
@@ -89,7 +90,7 @@ public class W04 {
 			int indexCounter = 0;
 			while (parentReference != null) {
 				ancestors[indexCounter] = parentReference;
-				System.out.println(parentReference.getNama());
+//				System.out.println(parentReference.getNama());
 				parentReference = parentReference.getParent();
 				if (indexCounter == ancestorCount)
 					break;
@@ -129,24 +130,30 @@ public class W04 {
 			Person dad = new Person("Sandy", 'L', grandpa, null);
 			Person mom = new Person("Rina", 'P', grandma, null);
 			Person son1 = new Person("Tarekh", 'L', dad, null);
-			Person daughter1 = new Person("Siti", 'P', mom, null);
+			Person daughter = new Person("Siti", 'P', mom, null);
 			Person son2 = new Person("Adi", 'L', dad, null);
+			Person grandkid = new Person("Lila", 'P', daughter, null);
+			Person greatGrandkid = new Person("Miko", 'L', grandkid, null);
 
-			Person[] son1sChildren = { daughter1 };
-			Person[] dadsChildren = { son1, son2 };
-			Person[] momsChildren = { son1, son2 };
-			Person[] grandpasChildren = { dad };
-			Person[] grandmasChildren = { mom };
+			Person[] greatGrandkidChildren = {};
+			Person[] grandkidChildren = { greatGrandkid };
+			Person[] son1Children = { daughter };
+			Person[] dadChildren = { son1, son2 };
+			Person[] momChildren = { son1, son2 };
+			Person[] grandpaChildren = { dad };
+			Person[] grandmaChildren = { mom };
 
-			grandpa.children = grandpasChildren;
-			grandma.children = grandmasChildren;
-			dad.children = dadsChildren;
-			mom.children = momsChildren;
-			son1.children = son1sChildren;
+			grandpa.children = grandpaChildren;
+			grandma.children = grandmaChildren;
+			dad.children = dadChildren;
+			mom.children = momChildren;
+			son1.children = son1Children;
+			grandkid.children = grandkidChildren;
+			greatGrandkid.children = greatGrandkidChildren;
 
 			System.out.println("All successors of Grandma:");
-			Person[] successors = grandma.getAllSuccessors();
-			for (Person p : successors) {
+			Person[] grandmaSuccessors = grandma.getAllSuccessors();
+			for (Person p : grandmaSuccessors) {
 				System.out.println(p.getNama());
 			}
 
@@ -155,6 +162,40 @@ public class W04 {
 			for (Person p : grandpaSuccessors) {
 				System.out.println(p.getNama());
 			}
+
+			System.out.println("\nAll ancestors of Lila:");
+			Person[] grandkidAncestors = grandkid.getAllAncestors();
+			for (Person p : grandkidAncestors) {
+				System.out.println(p.getNama());
+			}
+
+			System.out.println("\nAll ancestors of Adi:");
+			Person[] son2Ancestors = son2.getAllAncestors();
+			for (Person p : son2Ancestors) {
+				System.out.println(p.getNama());
+			}
+
+			System.out.println("\nAll male children of Rina:");
+			Person[] momMaleChildrens = mom.getChildren('L');
+			for (Person p : momMaleChildrens) {
+				System.out.println(p.getNama());
+			}
+
+			System.out.println("\nAll female children of Rina:");
+			Person[] momFemaleChildrens = mom.getChildren('F');
+			for (Person p : momFemaleChildrens) {
+				System.out.println(p.getNama());
+			}
+
+			System.out.println("\nAll children of Rina:");
+			Person[] momChildrens = mom.getChildren();
+			for (Person p : momChildrens) {
+				System.out.println(p.getNama());
+			}
+
+			System.out.println("\nParent of Tarekh:");
+			Person son1Parent = son1.getParent();
+			System.out.println(son1Parent.getNama());
 		}
 	}
 }
