@@ -2,7 +2,7 @@ package sandyb;
 
 import java.util.ArrayList;
 
-public class W06_PhoneBook {
+public class W07_PhoneBook {
 //	static interface ContactInfoStuff {
 //		String getName();
 //
