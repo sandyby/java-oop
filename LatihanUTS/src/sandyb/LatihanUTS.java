@@ -31,6 +31,19 @@ public class LatihanUTS {
 		}
 	}
 
+	public static class Motorcycle extends Vehicle {
+		private int enginePower;
+
+		public Motorcycle(String model, int enginePower) {
+			super(model);
+			this.enginePower = enginePower;
+		}
+
+		public void display() {
+			System.out.println("Model: " + super.model + ", HP: " + enginePower);
+		}
+	}
+
 	public static class Calculator {
 		int add(int a, int b) {
 			return a + b;
@@ -225,6 +238,18 @@ public class LatihanUTS {
 			System.out.println(orang.getNama());
 			orang.setNama("tarekh");
 			System.out.println(orang.getNama());
+
+//			Vehicle tes = new Car("tess", 4);
+//			Vehicle tes = new Vehicle("sedan");
+			Vehicle tes = new Motorcycle("ninja", 1000);
+			if (tes instanceof Car) {
+				System.out.println("iya ini car");
+			} else if (tes instanceof Motorcycle) {
+				System.out.println("iya ini motorcycle");
+			}
+//			} else if (tes instanceof Vehicle) {
+//				System.out.println("iya ini vehicle");
+//			}
 		}
 	}
 }
