@@ -1,0 +1,7 @@
+	Concrete Class
+- No inheritance needed
+- Can only have non-abstract methods
+
+	Abstract Class
+- Need inheritance (to be instantiated or accessed indirectly)
+- Can have both abstract and non-abstract methods
