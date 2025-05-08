@@ -1,6 +1,4 @@
-package sandyb;
-
-import Model.Barang;
+package Model;
 
 public class Voucher extends Barang {
 	private double pajak;

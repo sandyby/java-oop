@@ -1,11 +1,9 @@
-package sandyb;
+package Model;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Random;
-
-import Model.Barang;
 
 public class Order {
 	public static final String BLACK_TEXT = "\u001B[30m";

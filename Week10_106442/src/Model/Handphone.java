@@ -1,6 +1,4 @@
-package sandyb;
-
-import Model.Barang;
+package Model;
 
 public class Handphone extends Barang {
 	private String warna;

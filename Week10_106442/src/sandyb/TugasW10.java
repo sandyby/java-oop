@@ -12,6 +12,9 @@ import java.util.Optional;
 import java.util.Scanner;
 
 import Model.Barang;
+import Model.Handphone;
+import Model.Order;
+import Model.Voucher;
 
 public class TugasW10 {
 	public static final String BLACK_TEXT = "\u001B[30m";
