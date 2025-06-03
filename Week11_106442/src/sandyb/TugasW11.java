@@ -228,6 +228,9 @@ public class TugasW11 {
 				displayMainMenu();
 				String choice = scanner.nextLine();
 				switch (choice) {
+				case "0":
+					System.out.println("Terima kasih!");
+					System.exit(0);
 				case "1":
 					displayLogInMenu();
 					break;
