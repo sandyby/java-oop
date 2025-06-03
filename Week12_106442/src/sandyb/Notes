@@ -1,0 +1,229 @@
+File handling involves interacting with files on the filesystem to perform operations like:
+
+Reading: Retrieving data from a file (e.g., reading user credentials).
+Writing: Storing data to a file (e.g., saving new user details).
+Appending: Adding data to an existing file without overwriting it.
+Deleting/Modifying: Managing file content or metadata.
+Java provides several classes in the java.io and java.nio.file packages for file handling. The most commonly used classes include:
+
+File: Represents a file or directory path.
+FileReader/FileWriter: For reading/writing character-based data.
+BufferedReader/BufferedWriter: For efficient reading/writing with buffering.
+Scanner: For parsing text with delimiters.
+Files (from java.nio.file): For modern, versatile file operations.
+
+a. Reading Files
+Reading files involves accessing the content of a file. Common approaches include:
+
+Using FileReader and BufferedReader:
+FileReader reads character streams from a file.
+BufferedReader wraps FileReader to reduce direct disk access, improving performance by buffering data in memory.
+Example: Reading a file line by line.
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+public class ReadFileExample {
+    public static void main(String[] args) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+Using Scanner:
+Scanner is useful for parsing structured data with delimiters (e.g., commas, spaces).
+Example: Reading a CSV file with user data (e.g., admin,John,Doe,L,Jl. Merpati...,hashedPassword).
+
+import java.util.Scanner;
+import java.io.File;
+
+public class ReadFileScanner {
+    public static void main(String[] args) {
+        try (Scanner scanner = new Scanner(new File("users.txt"))) {
+            scanner.useDelimiter(","); // Set delimiter to comma
+            while (scanner.hasNext()) {
+                String username = scanner.next();
+                String firstName = scanner.next();
+                String lastName = scanner.next();
+                String gender = scanner.next();
+                String address = scanner.nextLine().trim(); // Handle rest of the line
+                System.out.println("User: " + username + ", Name: " + firstName + " " + lastName);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+Using Files (Java NIO):
+The java.nio.file.Files class provides a modern way to read files, especially for reading all lines at once.
+Example: Reading all lines into a List<String>.
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+public class ReadFileNIO {
+    public static void main(String[] args) {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get("users.txt"));
+            for (String line : lines) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+
+b. Writing Files
+Writing files involves storing data to a file, either overwriting existing content or appending to it.
+
+Using FileWriter and BufferedWriter:
+FileWriter writes character streams to a file.
+BufferedWriter improves performance by buffering writes.
+Example: Writing user data to a file.
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class WriteFileExample {
+    public static void main(String[] args) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("users.txt", true))) { // true for append
+            writer.write("admin,John,Doe,L,Jl. Merpati No. 1 RT 1 RW 1, Banten,hashedPassword");
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+Using Files (Java NIO):
+Simplifies writing by providing methods like write or writeString.
+Example: Writing a list of strings.
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+
+public class WriteFileNIO {
+    public static void main(String[] args) {
+        try {
+            Files.write(Paths.get("users.txt"), 
+                        Arrays.asList("admin,John,Doe,L,Jl. Merpati No. 1 RT 1 RW 1, Banten,hashedPassword"),
+                        StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+c. Buffering
+Buffering reduces direct disk access, improving performance for both reading and writing:
+
+BufferedReader: Reads chunks of data into memory, reducing the number of system calls.
+BufferedWriter: Buffers data in memory before writing to disk, minimizing disk I/O.
+Why Use Buffering? Without buffering, each read/write operation directly accesses the disk, which is slow. Buffering batches these operations, making your program faster, especially for large files.
+
+Example: When reading or writing user data, use BufferedReader/BufferedWriter to handle potentially large user lists efficiently.
+
+
+d. Delimiters
+Delimiters are characters or patterns that separate data fields in a file (e.g., commas in CSV files, tabs, or spaces). They are crucial when parsing structured data.
+
+Using Scanner with Delimiters:
+Scanner’s useDelimiter method lets you specify a delimiter (e.g., , for CSV).
+Example: Parsing a line like admin,John,Doe,L,Jl. Merpati...,hashedPassword.
+
+scanner.useDelimiter(",");
+String username = scanner.next();
+String firstName = scanner.next();
+
+Using String.split:
+If you read a line with BufferedReader, you can split it using a delimiter.
+Example:
+
+String line = "admin,John,Doe,L,Jl. Merpati...,hashedPassword";
+String[] parts = line.split(",");
+String username = parts[0];
+String firstName = parts[1];
+// ... and so on
+
+e. Other File Handling Concepts
+File Object: The File class represents a file or directory path. You can check if a file exists, create a new file, or delete it.
+Example:
+
+File file = new File("users.txt");
+if (!file.exists()) {
+    file.createNewFile();
+}
+
+Exception Handling: File operations can throw IOException (e.g., file not found, permission issues). Always use try-catch or try-with-resources to handle these safely.
+Try-with-resources: Ensures resources (e.g., BufferedReader, BufferedWriter) are closed automatically.
+
+try (BufferedReader reader = new BufferedReader(new FileReader("users.txt"))) {
+    // Read file
+} catch (IOException e) {
+    e.printStackTrace();
+}
+
+Appending vs. Overwriting:
+Overwrite: new FileWriter("file.txt") overwrites the file.
+Append: new FileWriter("file.txt", true) appends to the file.
+Use StandardOpenOption.APPEND with Files for appending in NIO.
+File Formats:
+Text Files: Store data as plain text (e.g., CSV, TXT).
+Binary Files: Use FileInputStream/FileOutputStream for non-text data (e.g., images).
+Serialized Objects: Use ObjectInputStream/ObjectOutputStream to save/restore Java objects (e.g., your User objects).
+
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
+
+public class SerializeUser {
+    public static void saveUser(User user) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("user.dat"))) {
+            oos.writeObject(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static User loadUser() {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("user.dat"))) {
+            return (User) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+
+public static class User implements Serializable {
+    // ... existing code ...
+}
+
+Best Practices for File Handling
+Use Try-with-Resources: Ensures files are closed properly, preventing resource leaks.
+Handle Exceptions: Always catch IOException and handle errors gracefully (e.g., inform the user if a file can’t be accessed).
+Validate Input: When reading files, validate data to prevent errors (e.g., check if the CSV has the expected number of fields).
+Choose the Right Format: For your program, CSV is simple and effective, but consider JSON or serialization for more complex data.
+Secure File Access: Ensure sensitive data (like passwords) is hashed or encrypted before storing.
+Thread Safety: If your program becomes multi-threaded, synchronize file access to prevent concurrent modification issues.
+
+
+Summary
+Reading: Use BufferedReader for text files, Scanner for delimited data, or Files for modern NIO operations.
+Writing: Use BufferedWriter for efficiency or Files for simplicity; choose append or overwrite based on needs.
+Buffering: Reduces disk I/O, making operations faster.
+Delimiters: Use Scanner or String.split to parse structured data like CSV.
