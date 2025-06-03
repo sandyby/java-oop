@@ -20,7 +20,7 @@ public class TugasW11 {
 
 		private static final int MaxLoginAttempts = 3;
 		private static int LoginAttempts;
-		private static String previousUsernameAttempt = null;
+//		private static String previousUsernameAttempt = null;
 
 		private String hash(String strToHash) {
 			try {
@@ -47,29 +47,26 @@ public class TugasW11 {
 		}
 
 		public boolean login(String userName, String password) throws ExcessiveFailedLogInException {
-			if (previousUsernameAttempt != null && !userName.equals(previousUsernameAttempt))
-				LoginAttempts = 0;
-
 			if (this.userName.equals(userName)) {
-				LoginAttempts++;
-				System.out.println("logina: " + LoginAttempts);
-				System.out.println("maxlogina: " + MaxLoginAttempts);
-				if (LoginAttempts >= MaxLoginAttempts) {
-					throw new ExcessiveFailedLogInException("Anda telah mencapai batas login!");
-				}
+//				LoginAttempts++;
+//				System.out.println("logina: " + LoginAttempts);
+//				System.out.println("maxlogina: " + MaxLoginAttempts);
 				if (this.password.equals(hash(password))) {
 					LoginAttempts = 0;
 					return true;
 				} else {
-//					LoginAttempts++;
+					LoginAttempts++;
 					System.out.println("Username/Password yang Anda masukkan salah!");
+					if (LoginAttempts >= MaxLoginAttempts) {
+						throw new ExcessiveFailedLogInException("Anda telah mencapai batas login!");
+					}
 					System.out.println(
 							"Kesempatan Anda login tersisa " + (MaxLoginAttempts - LoginAttempts) + " kali lagi!");
-					previousUsernameAttempt = userName;
+//					previousUsernameAttempt = userName;
 					return false;
 				}
 			}
-			previousUsernameAttempt = userName;
+//			previousUsernameAttempt = userName;
 			return false;
 		}
 
@@ -152,7 +149,7 @@ public class TugasW11 {
 					gender = 'P';
 					break;
 				default:
-					System.out.println("Jenis kelamin tidak valid! Masukkan L atau P.");
+					System.out.println("Jenis kelamin tidak valid! Hanya L atau P");
 					isInputValid = false;
 					break;
 				}
@@ -170,8 +167,16 @@ public class TugasW11 {
 				if (username.length() <= 8) {
 					isInputValid = false;
 					System.out.println("Username harus lebih dari 8 karakter");
+				} else {
+					for (User user : listOfUsers) {
+						if (user.getUserName().equals(username)) {
+							isInputValid = false;
+							System.out.println("Username sudah digunakan!");
+							break;
+						}
+					}
 				}
-			} while (!isInputValid || username == null);
+			} while (!isInputValid);
 
 			String password = null;
 			do {
@@ -185,7 +190,7 @@ public class TugasW11 {
 					System.out.println(
 							"Password harus mengandung huruf besar, angka, minimum 6 karakter dan maksimum 16 karakter");
 				}
-			} while (!isInputValid || password == null);
+			} while (!isInputValid);
 
 			listOfUsers.add(new User(firstName, lastName, gender, address, username, password));
 			System.out.println("User berhasil didaftarkan");
